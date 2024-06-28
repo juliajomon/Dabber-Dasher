@@ -4,13 +4,11 @@ int main(){
     //dimensions
     int width = 500;
     int length = 400;
-    
-    int rect_width = 40;
-    int rect_heigth = 50;
+
 
     //velocity
     int velocity = 0;
-    int y = length - rect_heigth;
+    
 
     //gravity  (pixels/frame)/frame
     const int gravity = 1;
@@ -23,6 +21,22 @@ int main(){
     InitWindow(width,length,"DAPPER-DASHER");
     SetTargetFPS(60);
 
+    //sprite sheet
+    Texture2D scrappy = LoadTexture("dapper-dasher-master-textures/textures/scarfy.png");
+    //character dimension
+    Rectangle scrappy_size ;
+    scrappy_size.width = scrappy.width/6;
+    scrappy_size.height = scrappy.height;
+    scrappy_size.x=0;
+    scrappy_size.y=0;
+    //character position
+    Vector2 scrappy_pos ;
+    scrappy_pos.x = width/2 - scrappy_size.width/2;
+    scrappy_pos.y = length - scrappy_size.height;
+
+
+    
+
     while(WindowShouldClose() == false){
 
         if(IsKeyDown(KEY_F11)){
@@ -33,7 +47,7 @@ int main(){
         ClearBackground(WHITE);
 
          //ground check
-        if(y >= length - rect_heigth){
+        if(scrappy_pos.y >= length - scrappy_size.height){
             velocity = 0;              //on ground
             isInair = false;
         }
@@ -48,11 +62,13 @@ int main(){
         }
         
        
-        y += velocity;
+        scrappy_pos.y += velocity;
 
-        DrawRectangle(width/2,y,rect_width,rect_heigth,RED);
+        DrawTextureRec(scrappy,scrappy_size,scrappy_pos, WHITE);
         
         EndDrawing();
 
     }
+    UnloadTexture(scrappy);
+    CloseWindow();
 }
