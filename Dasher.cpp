@@ -10,13 +10,15 @@ int main(){
     int velocity = 0;
     
 
-    //gravity  (pixels/frame)/frame
-    const int gravity = 1;
+    //gravity  (pixels/sec)/sec
+    const int gravity = 1000;
 
     //to prevent double jump
     bool isInair = false;
 
-    int jump = -15;
+    //pixel/sec
+    int jump = -500;
+    
 
     InitWindow(width,length,"DAPPER-DASHER");
     SetTargetFPS(60);
@@ -43,6 +45,8 @@ int main(){
             ToggleFullscreen();
         }
 
+        const float dt = GetFrameTime(); //delta time
+
         BeginDrawing();
         ClearBackground(WHITE);
 
@@ -52,7 +56,7 @@ int main(){
             isInair = false;
         }
         else{
-            velocity += gravity;    //apply gravity
+            velocity += gravity * dt;    //apply gravity
             isInair = true;
         }
         
@@ -62,7 +66,7 @@ int main(){
         }
         
        
-        scrappy_pos.y += velocity;
+        scrappy_pos.y += velocity * dt;
 
         DrawTextureRec(scrappy,scrappy_size,scrappy_pos, WHITE);
         
